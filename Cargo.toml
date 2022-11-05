@@ -1,0 +1,22 @@
+[package]
+name = "todorst"
+version = "0.1.0"
+authors = ["Phusit Somboonyingsuk"]
+description = "Unofficial client for Todoist API"
+license = "MIT"
+repository = "https://github.com/phusitsom/todorst.git"
+homepage = "https://github.com/phusitsom/todorst"
+keywords = ["todoist", "api"]
+readme = "README.md"
+edition = "2021"
+
+[dependencies]
+reqwest = "0.11"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_derive = "1.0"
+serde_urlencoded = "0.7"
+tokio = { version = "1.21", features = ["full"] }
+
+[dev-dependencies]
+mockito = "0.31"
