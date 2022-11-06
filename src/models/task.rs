@@ -32,4 +32,12 @@ pub struct Task {
     pub url: String,
 }
 
-pub type Tasks = Vec<Task>;
+impl Task {
+    pub fn from_str(json: &str) -> Result<Self, serde_json::Error> {
+        serde_json::from_str(json)
+    }
+
+    pub fn to_value(&self) -> serde_json::Value {
+        serde_json::to_value(self).unwrap()
+    }
+}
