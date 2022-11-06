@@ -5,6 +5,8 @@ pub mod comment;
 pub mod due;
 pub mod label;
 pub mod project;
-pub mod quick_add_result;
 pub mod section;
 pub mod task;
+
+pub mod quick_add_response;
+pub mod quick_add_result;
