@@ -2,6 +2,7 @@ pub mod client;
 pub mod endpoints;
 pub mod errors;
 pub mod models;
+pub mod api;
 
 use client::header::{HeaderMap, HeaderValue};
 
