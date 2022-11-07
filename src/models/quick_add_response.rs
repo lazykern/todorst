@@ -5,7 +5,7 @@ use crate::models::due::Due;
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Root {
+pub struct QuickAddResponse {
     #[serde(rename = "added_by_uid")]
     pub added_by_uid: String,
     #[serde(rename = "assigned_by_uid")]
