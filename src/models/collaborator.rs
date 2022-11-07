@@ -4,6 +4,8 @@ use serde::{Deserialize, Serialize};
 #[serde(rename_all = "camelCase")]
 pub struct Collaborator {
     pub id: String,
+
     pub name: String,
+
     pub email: String,
 }

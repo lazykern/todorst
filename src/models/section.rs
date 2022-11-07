@@ -2,9 +2,13 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Section {
+
     pub id: String,
+
     pub project_id: String,
+
     pub order: isize,
+
     pub name: String,
 }
 

@@ -4,16 +4,27 @@ use serde::{Deserialize, Serialize};
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Project {
     pub id: String,
+
     pub name: String,
+
     pub comment_count: isize,
+
     pub order: isize,
+
     pub color: Color,
+
     pub is_shared: bool,
+
     pub is_favorite: bool,
+
     pub parent_id: String,
+
     pub is_inbox_project: bool,
+
     pub is_team_inbox: bool,
+
     pub view_style: String,
+
     pub url: String,
 }
 
