@@ -1,8 +1,8 @@
 pub mod client;
-pub mod endpoints;
-pub mod errors;
-pub mod models;
-pub mod api;
+pub mod constant;
+pub mod error;
+pub mod rest;
+pub mod sync;
 
 use client::header::{HeaderMap, HeaderValue};
 
@@ -63,11 +63,7 @@ impl Todorst {
         self.user_agent.as_str()
     }
 
-    #[maybe_async::maybe_async]
-    pub async fn get_tasks(&self) -> Result<Vec<models::rest::Task>, errors::TodorstError> {
-        let url = endpoints::get_rest_url(endpoints::TASKS_ENDPOINT);
-        let response = self.client.get(url).send().await?;
-        let tasks: Vec<models::rest::Task> = response.json().await?;
-        Ok(tasks)
+    pub fn rest_api(&self) -> rest::TodorstRestApi {
+        rest::TodorstRestApi::new(&self.client)
     }
 }

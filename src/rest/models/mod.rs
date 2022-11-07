@@ -8,6 +8,7 @@ mod project;
 mod section;
 mod task;
 
+pub use attachment::Attachment;
 pub use collaborator::Collaborator;
 pub use color::Color;
 pub use comment::Comment;
@@ -16,3 +17,4 @@ pub use label::Label;
 pub use project::Project;
 pub use section::Section;
 pub use task::Task;
+

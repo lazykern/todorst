@@ -12,6 +12,7 @@ struct Args {
 async fn main() {
     let args = Args::parse();
     let todorst = Todorst::new(args.token.as_str());
-    let tasks = todorst.get_tasks().await.unwrap();
+    let rest_api = todorst.rest_api();
+    let tasks = rest_api.get_tasks().await.unwrap();
     println!("{:?}", tasks);
 }

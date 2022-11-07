@@ -27,7 +27,7 @@ pub struct Task {
 
     pub order: isize,
 
-    pub priority: isize,
+    pub priority: u8,
 
     pub project_id: String,
 
