@@ -1,4 +1,4 @@
-use crate::models::Color;
+use super::Color;
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]

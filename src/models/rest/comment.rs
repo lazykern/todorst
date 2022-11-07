@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::models::attachment::Attachment;
+use super::attachment::Attachment;
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Comment {

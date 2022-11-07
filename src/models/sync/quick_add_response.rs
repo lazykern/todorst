@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-use crate::models::due::Due;
+use super::due::Due;
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 

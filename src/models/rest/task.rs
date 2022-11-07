@@ -1,4 +1,4 @@
-use crate::models::due::Due;
+use super::Due;
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -11,7 +11,7 @@ pub struct Task {
 
     pub assigner_id: Option<String>,
 
-    pub comment_count: i64,
+    pub comment_count: isize,
 
     pub is_completed: bool,
 
@@ -25,9 +25,9 @@ pub struct Task {
 
     pub labels: Vec<String>,
 
-    pub order: i64,
+    pub order: isize,
 
-    pub priority: i64,
+    pub priority: isize,
 
     pub project_id: String,
 
