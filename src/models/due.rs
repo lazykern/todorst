@@ -2,10 +2,8 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
 pub struct Due {
     pub date: String,
-    #[serde(rename = "is_recurring")]
     pub is_recurring: bool,
     pub string: String,
 

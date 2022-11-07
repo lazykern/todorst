@@ -1,12 +1,10 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
 pub struct Section {
     pub id: String,
-    #[serde(rename = "project_id")]
     pub project_id: String,
-    pub order: i64,
+    pub order: isize,
     pub name: String,
 }
 
