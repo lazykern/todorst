@@ -1,3 +1,4 @@
+/// This code was generally written by ishehadeh
 mod color;
 mod error;
 
