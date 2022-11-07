@@ -63,10 +63,10 @@ impl Todorst {
     }
 
     #[maybe_async::maybe_async]
-    pub async fn get_tasks(&self) -> Result<Vec<models::Task>, errors::TodorstError> {
+    pub async fn get_tasks(&self) -> Result<Vec<models::rest::Task>, errors::TodorstError> {
         let url = endpoints::get_rest_url(endpoints::TASKS_ENDPOINT);
         let response = self.client.get(url).send().await?;
-        let tasks: Vec<models::Task> = response.json().await?;
+        let tasks: Vec<models::rest::Task> = response.json().await?;
         Ok(tasks)
     }
 }
