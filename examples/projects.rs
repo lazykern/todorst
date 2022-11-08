@@ -15,6 +15,6 @@ async fn main() {
     let todorst = Todorst::new(args.token.as_str());
     let todorst_rest = todorst.rest_api();
 
-    let tasks = todorst_rest.get_tasks().await.unwrap();
-    println!("{:?}", tasks);
+    let projects = todorst_rest.get_projects().await.unwrap();
+    println!("{:#?}", projects);
 }
