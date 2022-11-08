@@ -8,10 +8,7 @@ An maybe asynchronous rust wrapper for Todoist REST and Sync API.
 
 ```rust
 use todorst::Todorst;
-
-
 use todorst::rest::{body::CreateProjectBody, models::Color};
-use todorst::Todorst;
 
 let todorst = Todorst::new("API TOKEN");
 let todorst_rest = todorst.rest_api();
@@ -24,5 +21,4 @@ let body = CreateProjectBody::new("Test project")
     .with_color(Color::Red)
 
 let created_project = todorst_rest.crate_project(&body).await.unwrap();
-
 ```
