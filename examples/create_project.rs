@@ -1,5 +1,4 @@
-use todorst::rest::body;
-use todorst::rest::models::Color;
+use todorst::rest::{body::CreateProjectBody, models::Color};
 use todorst::Todorst;
 
 use clap::Parser;
@@ -17,7 +16,7 @@ async fn main() {
     let todorst = Todorst::new(args.token.as_str());
     let todorst_rest = todorst.rest_api();
 
-    let body = body::CreateProjectBody::new("Test project")
+    let body = CreateProjectBody::new("todorst project")
         .with_color(Color::Red)
         .with_is_favorite(true);
 
