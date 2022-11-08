@@ -7,17 +7,17 @@ pub struct Project {
 
     pub name: String,
 
-    pub comment_count: isize,
+    pub color: Color,
+
+    pub parent_id: Option<String>,
 
     pub order: isize,
 
-    pub color: Color,
+    pub comment_count: isize,
 
     pub is_shared: bool,
 
     pub is_favorite: bool,
-
-    pub parent_id: String,
 
     pub is_inbox_project: bool,
 
