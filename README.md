@@ -10,8 +10,9 @@ An maybe asynchronous rust wrapper for Todoist REST and Sync API.
 use todorst::Todorst;
 use todorst::rest::{body::CreateProjectBody, models::Color};
 
-let todorst = Todorst::new("API TOKEN");
-let todorst_rest = todorst.rest_api();
+// Create an client
+let todorst_rest = Todorst::new("API TOKEN")
+  .rest_api()
 
 // Get all tasks
 let tasks = todorst_rest.get_tasks().await.unwrap();
