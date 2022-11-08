@@ -23,7 +23,7 @@ pub fn rest_project_url(project_id: &str) -> Url {
     url
 }
 
-pub fn rest_project_collaborators_url(project_id: &str) -> Url {
+pub fn rest_collaborators_url(project_id: &str) -> Url {
     let mut url = rest_project_url(project_id);
     url.path_segments_mut()
         .unwrap()
