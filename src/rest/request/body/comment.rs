@@ -98,33 +98,3 @@ impl From<&Comment> for CreateCommentBody {
         CreateCommentBody { json }
     }
 }
-pub struct UpdateCommentBody {
-    json: Value,
-}
-
-impl UpdateCommentBody {
-    pub fn new(content: &str) -> UpdateCommentBody {
-        let json = json!({
-            "content": content,
-        });
-        UpdateCommentBody { json }
-    }
-
-    pub fn json(&self) -> &Value {
-        &self.json
-    }
-
-    pub fn set_content(&mut self, content: &str) {
-        self.json["content"] = json!(content);
-    }
-}
-
-impl From<&Comment> for UpdateCommentBody {
-    fn from(comment: &Comment) -> UpdateCommentBody {
-        let json = json!({
-            "content": comment.content,
-        });
-
-        UpdateCommentBody { json }
-    }
-}
