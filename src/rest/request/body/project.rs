@@ -14,23 +14,6 @@ impl CreateProjectBody {
         CreateProjectBody { json }
     }
 
-    pub fn from_project(project: &Project) -> CreateProjectBody {
-        let json = json!({
-            "name": project.name,
-            "color": project.color,
-            "parent_id": project.parent_id,
-            "order": project.order,
-            "comment_count": project.comment_count,
-            "is_shared": project.is_shared,
-            "is_favorite": project.is_favorite,
-            "is_inbox_project": project.is_inbox_project,
-            "is_team_inbox": project.is_team_inbox,
-            "view_style": project.view_style,
-            "url": project.url,
-        });
-        CreateProjectBody { json }
-    }
-
     pub fn json(&self) -> &Value {
         &self.json
     }
@@ -85,6 +68,19 @@ impl CreateProjectBody {
     }
 }
 
+impl From<&Project> for CreateProjectBody {
+    fn from(project: &Project) -> CreateProjectBody {
+        let json = json!({
+            "name": project.name,
+            "parent_id": project.parent_id,
+            "color": project.color,
+            "is_favorite": project.is_favorite,
+            "view_style": project.view_style,
+        });
+        CreateProjectBody { json }
+    }
+}
+
 pub struct UpdateProjectBody {
     json: Value,
 }
@@ -92,23 +88,6 @@ pub struct UpdateProjectBody {
 impl UpdateProjectBody {
     pub fn new() -> UpdateProjectBody {
         let json = json!({});
-        UpdateProjectBody { json }
-    }
-
-    pub fn from_project(project: &Project) -> UpdateProjectBody {
-        let json = json!({
-            "name": project.name,
-            "color": project.color,
-            "parent_id": project.parent_id,
-            "order": project.order,
-            "comment_count": project.comment_count,
-            "is_shared": project.is_shared,
-            "is_favorite": project.is_favorite,
-            "is_inbox_project": project.is_inbox_project,
-            "is_team_inbox": project.is_team_inbox,
-            "view_style": project.view_style,
-            "url": project.url,
-        });
         UpdateProjectBody { json }
     }
 
@@ -159,5 +138,17 @@ impl UpdateProjectBody {
     pub fn with_view_style(mut self, view_style: &str) -> UpdateProjectBody {
         self.json["view_style"] = json!(view_style);
         self
+    }
+}
+
+impl From<&Project> for UpdateProjectBody {
+    fn from(project: &Project) -> UpdateProjectBody {
+        let json = json!({
+            "name": project.name,
+            "color": project.color,
+            "is_favorite": project.is_favorite,
+            "view_style": project.view_style,
+        });
+        UpdateProjectBody { json }
     }
 }

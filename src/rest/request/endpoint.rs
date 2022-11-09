@@ -35,11 +35,11 @@ pub fn rest_sections_url() -> Url {
     rest_url(SECTIONS_ENDPOINT)
 }
 
-pub fn rest_project_sections_url(project_id: &str) -> Url {
-    let mut url = rest_project_url(project_id);
-    url.query_pairs_mut().append_pair("project_id", project_id);
-    url
-}
+// pub fn rest_project_sections_url(project_id: &str) -> Url {
+//     let mut url = rest_project_url(project_id);
+//     url.query_pairs_mut().append_pair("project_id", project_id);
+//     url
+// }
 
 pub fn rest_section_url(section_id: &str) -> Url {
     let mut url = rest_sections_url();
