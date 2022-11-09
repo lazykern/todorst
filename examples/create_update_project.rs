@@ -19,20 +19,18 @@ async fn main() {
     let todorst = Todorst::new(args.token.as_str());
     let todorst_rest = todorst.rest_api();
 
-    let body = CreateProjectBody::new("todorst project")
+    let body = CreateProjectBody::new("Old project")
         .with_color(Color::Red)
         .with_is_favorite(true);
 
-    let mut project = todorst_rest.crate_project(&body).await.unwrap();
+    let project = todorst_rest.crate_project(body).await.unwrap();
 
     println!("Project Structure:\n{:#?}", project);
 
-    project.name = "Test project 2".to_string();
-
-    let updated_project = todorst_rest
-        .update_project(project.id.as_str(), &UpdateProjectBody::from(&project))
+    let updated = project
+        .update(UpdateProjectBody::new().with_name("Updated project"))
         .await
         .unwrap();
 
-    println!("Updated Project Structure:\n{:#?}", updated_project);
+    println!("Updated Project Structure:\n{:#?}", updated);
 }
