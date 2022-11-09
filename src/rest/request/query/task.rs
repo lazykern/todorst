@@ -20,13 +20,13 @@ impl GetTasksQuery {
         }
     }
 
-    pub fn with_project_id(mut self, project_id: String) -> Self {
-        self.project_id = Some(project_id);
+    pub fn with_project_id(mut self, project_id: &str) -> Self {
+        self.project_id = Some(project_id.to_string());
         self
     }
 
-    pub fn with_section_id(mut self, section_id: String) -> Self {
-        self.section_id = Some(section_id);
+    pub fn with_section_id(mut self, section_id: &str) -> Self {
+        self.section_id = Some(section_id.to_string());
         self
     }
 
