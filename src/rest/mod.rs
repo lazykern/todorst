@@ -1,5 +1,5 @@
 mod api;
-pub use api::TodorstRestApi;
+pub use api::TodorstRestAPI;
 
 pub mod models;
 

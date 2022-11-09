@@ -4,17 +4,18 @@ mod color;
 mod comment;
 mod due;
 mod label;
+mod priority;
 mod project;
 mod section;
 mod task;
 
-pub use attachment::Attachment;
-pub use collaborator::Collaborator;
-pub use color::Color;
-pub use comment::Comment;
-pub use due::Due;
-pub use label::Label;
-pub use project::Project;
-pub use section::Section;
-pub use task::Task;
-
+pub use attachment::*;
+pub use collaborator::*;
+pub use color::*;
+pub use comment::*;
+pub use due::*;
+pub use label::*;
+pub use priority::*;
+pub use project::*;
+pub use section::*;
+pub use task::*;

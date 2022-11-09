@@ -63,7 +63,7 @@ impl Todorst {
         self.user_agent.as_str()
     }
 
-    pub fn rest_api(&self) -> rest::TodorstRestApi {
-        rest::TodorstRestApi::new(&self.client)
+    pub fn rest_api(&self) -> rest::TodorstRestAPI {
+        rest::TodorstRestAPI::new(&self.client)
     }
 }

@@ -1,8 +1,5 @@
 /// This code was generally written by ishehadeh
-use serde::{Deserialize, Serialize};
-
-use serde::de;
-use serde::ser;
+use serde::{de, ser, Deserialize, Serialize};
 
 use std::fmt;
 
@@ -113,4 +110,3 @@ impl<'de> Deserialize<'de> for Color {
         deserializer.deserialize_str(ColorVisitor)
     }
 }
-
