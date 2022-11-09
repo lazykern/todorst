@@ -1,3 +1,4 @@
+use serde::{Serialize, Serializer};
 use serde_json::{json, Value};
 
 use crate::rest::models::{Color, Project};
@@ -12,10 +13,6 @@ impl CreateProjectBody {
             "name": name,
         });
         CreateProjectBody { json }
-    }
-
-    pub fn json(&self) -> &Value {
-        &self.json
     }
 
     pub fn set_name(&mut self, name: &str) {
@@ -81,6 +78,15 @@ impl From<&Project> for CreateProjectBody {
     }
 }
 
+impl Serialize for CreateProjectBody {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        self.json.serialize(serializer)
+    }
+}
+
 pub struct UpdateProjectBody {
     json: Value,
 }
@@ -89,10 +95,6 @@ impl UpdateProjectBody {
     pub fn new() -> UpdateProjectBody {
         let json = json!({});
         UpdateProjectBody { json }
-    }
-
-    pub fn json(&self) -> &Value {
-        &self.json
     }
 
     pub fn set_name(&mut self, name: &str) {
@@ -150,5 +152,14 @@ impl From<&Project> for UpdateProjectBody {
             "view_style": project.view_style,
         });
         UpdateProjectBody { json }
+    }
+}
+
+impl Serialize for UpdateProjectBody {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        self.json.serialize(serializer)
     }
 }

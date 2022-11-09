@@ -1,3 +1,4 @@
+use serde::{Serialize, Serializer};
 use serde_json::{json, Value};
 
 use crate::rest::models::Task;
@@ -12,10 +13,6 @@ impl CreateTaskBody {
             "content": content,
         });
         CreateTaskBody { json }
-    }
-
-    pub fn json(&self) -> &Value {
-        &self.json
     }
 
     pub fn set_content(&mut self, content: &str) {
@@ -189,6 +186,15 @@ impl From<Task> for CreateTaskBody {
     }
 }
 
+impl Serialize for CreateTaskBody {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        self.json.serialize(serializer)
+    }
+}
+
 pub struct UpdateTaskBody {
     json: Value,
 }
@@ -197,10 +203,6 @@ impl UpdateTaskBody {
     pub fn new() -> UpdateTaskBody {
         let json = json!({});
         UpdateTaskBody { json }
-    }
-
-    pub fn json(&self) -> &Value {
-        &self.json
     }
 
     pub fn set_content(&mut self, content: &str) {
@@ -312,5 +314,14 @@ impl From<Task> for UpdateTaskBody {
         }
 
         UpdateTaskBody { json }
+    }
+}
+
+impl Serialize for UpdateTaskBody {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        self.json.serialize(serializer)
     }
 }

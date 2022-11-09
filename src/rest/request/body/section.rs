@@ -1,3 +1,4 @@
+use serde::Serialize;
 use serde_json::{json, Value};
 
 use crate::rest::models::Section;
@@ -14,10 +15,6 @@ impl CreateSectionBody {
                 "project_id": project_id,
             }),
         }
-    }
-
-    pub fn json(&self) -> &Value {
-        &self.json
     }
 
     pub fn set_name(&mut self, name: &str) -> &mut CreateSectionBody {
@@ -53,6 +50,15 @@ impl From<&Section> for CreateSectionBody {
     }
 }
 
+impl Serialize for CreateSectionBody {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        self.json.serialize(serializer)
+    }
+}
+
 pub struct UpdateSectionBody {
     json: Value,
 }
@@ -64,10 +70,6 @@ impl UpdateSectionBody {
                 "name": name,
             }),
         }
-    }
-
-    pub fn json(&self) -> &Value {
-        &self.json
     }
 
     pub fn set_name(&mut self, name: &str) -> &mut UpdateSectionBody {
@@ -83,5 +85,14 @@ impl From<&Section> for UpdateSectionBody {
                 "name": section.name,
             }),
         }
+    }
+}
+
+impl Serialize for UpdateSectionBody {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        self.json.serialize(serializer)
     }
 }

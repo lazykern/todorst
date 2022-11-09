@@ -1,3 +1,4 @@
+use serde::Serialize;
 use serde_json::{json, Value};
 
 use crate::rest::models::{Color, Label};
@@ -12,10 +13,6 @@ impl CratePersonalLabelBody {
             "name": name,
         });
         CratePersonalLabelBody { json }
-    }
-
-    pub fn json(&self) -> &Value {
-        &self.json
     }
 
     pub fn set_name(&mut self, name: &str) {
@@ -74,6 +71,15 @@ impl From<&Label> for CratePersonalLabelBody {
         });
 
         CratePersonalLabelBody { json }
+    }
+}
+
+impl Serialize for CratePersonalLabelBody {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        self.json.serialize(serializer)
     }
 }
 

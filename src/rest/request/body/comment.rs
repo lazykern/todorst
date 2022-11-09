@@ -1,3 +1,4 @@
+use serde::Serialize;
 use serde_json::{json, Value};
 
 use crate::rest::models::{Attachment, Comment};
@@ -12,10 +13,6 @@ impl CreateCommentBody {
             "content": content,
         });
         CreateCommentBody { json }
-    }
-
-    pub fn json(&self) -> &Value {
-        &self.json
     }
 
     pub fn new_with_task_id(task_id: &str, content: &str) -> CreateCommentBody {
@@ -96,5 +93,14 @@ impl From<&Comment> for CreateCommentBody {
         }
 
         CreateCommentBody { json }
+    }
+}
+
+impl Serialize for CreateCommentBody {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        self.json.serialize(serializer)
     }
 }
