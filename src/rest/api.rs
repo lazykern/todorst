@@ -1,4 +1,6 @@
-use super::body::{CreateProjectBody, CreateSectionBody, UpdateProjectBody};
+use serde_json::json;
+
+use super::body::*;
 use super::models::*;
 use super::request::endpoint::*;
 use super::request::query::GetTasksQuery;
@@ -121,6 +123,95 @@ impl TodorstRestApi<'_> {
     pub async fn get_tasks_query(&self, query: GetTasksQuery) -> Result<Vec<Task>, TodorstError> {
         let url = rest_tasks_url();
         let response = self.client.get(url).query(&query).send().await?;
+        Ok(response.json().await?)
+    }
+
+    #[maybe_async::maybe_async]
+    pub async fn create_task(&self, body: &CreateTaskBody) -> Result<Task, TodorstError> {
+        let url = rest_tasks_url();
+        let response = self.client.post(url).json(body.json()).send().await?;
+        Ok(response.json().await?)
+    }
+
+    #[maybe_async::maybe_async]
+    pub async fn get_task(&self, task_id: &str) -> Result<Task, TodorstError> {
+        let url = rest_task_url(task_id);
+        let response = self.client.get(url).send().await?;
+        Ok(response.json().await?)
+    }
+
+    #[maybe_async::maybe_async]
+    pub async fn update_task(
+        &self,
+        task_id: &str,
+        body: &UpdateTaskBody,
+    ) -> Result<Task, TodorstError> {
+        let url = rest_task_url(task_id);
+        let response = self.client.post(url).json(body.json()).send().await?;
+        Ok(response.json().await?)
+    }
+
+    #[maybe_async::maybe_async]
+    pub async fn close_task(&self, task_id: &str) -> Result<(), TodorstError> {
+        let url = rest_task_close_url(task_id);
+        let response = self.client.post(url).send().await?;
+        Ok(response.json().await?)
+    }
+
+    #[maybe_async::maybe_async]
+    pub async fn reopen_task(&self, task_id: &str) -> Result<(), TodorstError> {
+        let url = rest_task_reopen_url(task_id);
+        let response = self.client.post(url).send().await?;
+        Ok(response.json().await?)
+    }
+
+    #[maybe_async::maybe_async]
+    pub async fn delete_task(&self, task_id: &str) -> Result<(), TodorstError> {
+        let url = rest_task_url(task_id);
+        let response = self.client.delete(url).send().await?;
+        Ok(response.json().await?)
+    }
+
+    #[maybe_async::maybe_async]
+    pub async fn get_task_comments(&self, task_id: &str) -> Result<Vec<Comment>, TodorstError> {
+        let url = rest_task_comments_url(task_id);
+        let response = self.client.get(url).send().await?;
+        Ok(response.json().await?)
+    }
+
+    #[maybe_async::maybe_async]
+    pub async fn get_project_comments(
+        &self,
+        project_id: &str,
+    ) -> Result<Vec<Comment>, TodorstError> {
+        let url = rest_project_comments_url(project_id);
+        let response = self.client.get(url).send().await?;
+        Ok(response.json().await?)
+    }
+
+    #[maybe_async::maybe_async]
+    pub async fn get_comment(&self, comment_id: &str) -> Result<Comment, TodorstError> {
+        let url = rest_comment_url(comment_id);
+        let response = self.client.get(url).send().await?;
+        Ok(response.json().await?)
+    }
+
+    #[maybe_async::maybe_async]
+    pub async fn update_comment(
+        &self,
+        comment_id: &str,
+        content: &str,
+    ) -> Result<Comment, TodorstError> {
+        let url = rest_comment_url(comment_id);
+        let json = json!({ "content": content });
+        let response = self.client.post(url).json(&json).send().await?;
+        Ok(response.json().await?)
+    }
+
+    #[maybe_async::maybe_async]
+    pub async fn delete_comment(&self, comment_id: &str) -> Result<(), TodorstError> {
+        let url = rest_comment_url(comment_id);
+        let response = self.client.delete(url).send().await?;
         Ok(response.json().await?)
     }
 }

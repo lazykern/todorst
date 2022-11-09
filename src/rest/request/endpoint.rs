@@ -79,6 +79,12 @@ pub fn rest_task_comments_url(task_id: &str) -> Url {
     url
 }
 
+pub fn rest_project_comments_url(project_id: &str) -> Url {
+    let mut url = rest_project_url(project_id);
+    url.query_pairs_mut().append_pair("project_id", project_id);
+    url
+}
+
 pub fn rest_comment_url(comment_id: &str) -> Url {
     let mut url = rest_comments_url();
     url.path_segments_mut().unwrap().push(comment_id);
