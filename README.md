@@ -7,19 +7,21 @@ An maybe asynchronous rust wrapper for Todoist REST and Sync API.
 ### REST
 
 ```rust
-use todorst::Todorst;
 use todorst::rest::{body::CreateProjectBody, models::Color};
+use todorst::Todorst;
 
-// Create an client
-let todorst_rest = Todorst::new("API TOKEN")
-  .rest_api()
+#[tokio::main]
+async fn main() {
+    // Create an client
+    let todorst = Todorst::new("API TOKEN");
+    let todorst_rest = todorst.rest_api();
 
-// Get all tasks
-let tasks = todorst_rest.get_tasks().await.unwrap();
+    // Get all tasks
+    let tasks = todorst_rest.get_tasks().await.unwrap();
 
-// Create a project with red color
-let body = CreateProjectBody::new("Test project")
-    .with_color(Color::Red)
+    // Create a project with red color
+    let body = CreateProjectBody::new("Test project").with_color(Color::Red);
 
-let created_project = todorst_rest.crate_project(&body).await.unwrap();
+    let created_project = todorst_rest.crate_project(body).await.unwrap();
+}
 ```
