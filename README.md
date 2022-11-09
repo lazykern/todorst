@@ -1,6 +1,6 @@
 # todorst
 
-An maybe asynchronous rust wrapper for Todoist REST and Sync API.
+A maybe asynchronous rust wrapper for Todoist REST and Sync API.
 
 ## Usage
 
