@@ -1,4 +1,4 @@
-# todorst
+# todorst | UNSTABLE
 
 A maybe asynchronous rust wrapper for Todoist REST and Sync API.
 
