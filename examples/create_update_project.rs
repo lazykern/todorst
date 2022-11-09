@@ -1,4 +1,7 @@
-use todorst::rest::{body::CreateProjectBody, models::Color};
+use todorst::rest::{
+    body::{CreateProjectBody, UpdateProjectBody},
+    models::Color,
+};
 use todorst::Todorst;
 
 use clap::Parser;
@@ -20,14 +23,16 @@ async fn main() {
         .with_color(Color::Red)
         .with_is_favorite(true);
 
-    //// equivalent statement:
-    // let mut body = body::CreateProjectBody::new("Test project");
-    // body.set_color(Color::Red);
-    // body.set_is_favorite(true);
-
     let mut project = todorst_rest.crate_project(&body).await.unwrap();
 
     println!("Project Structure:\n{:#?}", project);
 
     project.name = "Test project 2".to_string();
+
+    let updated_project = todorst_rest
+        .update_project(project.id.as_str(), &UpdateProjectBody::from(&project))
+        .await
+        .unwrap();
+
+    println!("Updated Project Structure:\n{:#?}", updated_project);
 }
