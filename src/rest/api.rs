@@ -29,7 +29,10 @@ impl TodorstRestAPI<'_> {
     }
 
     #[maybe_async::maybe_async]
-    pub async fn crate_project(&self, body: CreateProjectBody) -> Result<ProjectAPI, TodorstError> {
+    pub async fn create_project(
+        &self,
+        body: CreateProjectBody,
+    ) -> Result<ProjectAPI, TodorstError> {
         let url = rest_projects_url();
         let response = self.client.post(url).json(&body).send().await?;
         Ok(ProjectAPI::new(self, response.json().await?))

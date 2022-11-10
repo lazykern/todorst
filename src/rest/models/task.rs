@@ -121,7 +121,7 @@ impl<'a> TaskAPI<'a> {
     }
 
     #[maybe_async::maybe_async]
-    pub async fn create_child_task(&self, body: CreateTaskBody) -> Result<TaskAPI, TodorstError> {
+    pub async fn create_child(&self, body: CreateTaskBody) -> Result<TaskAPI, TodorstError> {
         self.api
             .create_task(body.with_parent_id(&self.task.id))
             .await

@@ -1,6 +1,9 @@
 use crate::{
     error::TodorstError,
-    rest::{body::UpdateProjectBody, TodorstRestAPI},
+    rest::{
+        body::{CreateProjectBody, UpdateProjectBody},
+        TodorstRestAPI,
+    },
 };
 
 use super::{Collaborator, Color, SectionAPI};
@@ -66,5 +69,19 @@ impl<'a> ProjectAPI<'a> {
     #[maybe_async::maybe_async]
     pub async fn get_sections(&self) -> Result<Vec<SectionAPI>, TodorstError> {
         self.api.get_sections(&self.project.id).await
+    }
+
+    #[maybe_async::maybe_async]
+    pub async fn get_parent(&self) -> Result<Option<ProjectAPI>, TodorstError> {
+        if let Some(parent_id) = &self.project.parent_id {
+            Ok(Some(self.api.get_project(parent_id).await?))
+        } else {
+            Ok(None)
+        }
+    }
+
+    #[maybe_async::maybe_async]
+    pub async fn create_child(&self, body: CreateProjectBody) -> Result<ProjectAPI, TodorstError> {
+        self.api.create_project(body).await
     }
 }

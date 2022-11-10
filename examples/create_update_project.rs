@@ -23,7 +23,7 @@ async fn main() {
         .with_color(Color::Red)
         .with_is_favorite(true);
 
-    let project = todorst_rest.crate_project(body).await.unwrap();
+    let project = todorst_rest.create_project(body).await.unwrap();
 
     println!("Project Structure:\n{:#?}", project);
 
