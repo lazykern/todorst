@@ -22,6 +22,11 @@ impl Todorst {
 
         headers.insert("User-Agent", HeaderValue::from_str(user_agent).unwrap());
 
+        headers.insert(
+            "Content-Type",
+            HeaderValue::from_str("application/json").unwrap(),
+        );
+
         let client = client::Client::builder()
             .default_headers(headers)
             .build()
