@@ -1,7 +1,7 @@
 use crate::{
     error::TodorstError,
     rest::{
-        body::{CreateCommentBody, CreateTaskBody, UpdateTaskBody},
+        body::{CreateTaskBody, CreateTaskCommentBody, UpdateTaskBody},
         TodorstRestAPI,
     },
 };
@@ -114,9 +114,12 @@ impl<'a> TaskAPI<'a> {
     }
 
     #[maybe_async::maybe_async]
-    pub async fn add_comment(&self, body: CreateCommentBody) -> Result<CommentAPI, TodorstError> {
+    pub async fn add_comment(
+        &self,
+        body: CreateTaskCommentBody,
+    ) -> Result<CommentAPI, TodorstError> {
         self.api
-            .create_comment(body.with_task_id(&self.task.id))
+            .create_task_comment(body.with_task_id(&self.task.id))
             .await
     }
 

@@ -1,7 +1,7 @@
 /// This code was generally written by ishehadeh
-use serde::{de, ser, Deserialize, Serialize};
+use serde::{de, ser};
 
-use std::fmt;
+use std::{fmt, str::FromStr};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Color {
@@ -27,20 +27,11 @@ pub enum Color {
     Taupe,
 }
 
-struct ColorVisitor;
+impl FromStr for Color {
+    type Err = String;
 
-impl<'de> de::Visitor<'de> for ColorVisitor {
-    type Value = Color;
-
-    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        formatter.write_str("a color in [berry_red, red, orange, yellow, olive_green, lime_green, green, mint_green, teal, sky_blue, light_blue, blue, grape, violet, lavender, magenta, salmon, charcoal, grey, taupe]")
-    }
-
-    fn visit_str<E>(self, value: &str) -> Result<Color, E>
-    where
-        E: de::Error,
-    {
-        match value {
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
             "berry_red" => Ok(Color::BerryRed),
             "red" => Ok(Color::Red),
             "orange" => Ok(Color::Orange),
@@ -61,8 +52,52 @@ impl<'de> de::Visitor<'de> for ColorVisitor {
             "charcoal" => Ok(Color::Charcoal),
             "grey" => Ok(Color::Grey),
             "taupe" => Ok(Color::Taupe),
-            _ => Err(E::custom(format!("invalid color: {}", value))),
+            _ => Err(format!("Invalid color: {}", s)),
         }
+    }
+}
+
+impl Color {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Color::BerryRed => "berry_red",
+            Color::Red => "red",
+            Color::Orange => "orange",
+            Color::Yellow => "yellow",
+            Color::OliveGreen => "olive_green",
+            Color::LimeGreen => "lime_green",
+            Color::Green => "green",
+            Color::MintGreen => "mint_green",
+            Color::Teal => "teal",
+            Color::SkyBlue => "sky_blue",
+            Color::LightBlue => "light_blue",
+            Color::Blue => "blue",
+            Color::Grape => "grape",
+            Color::Violet => "violet",
+            Color::Lavender => "lavender",
+            Color::Magenta => "magenta",
+            Color::Salmon => "salmon",
+            Color::Charcoal => "charcoal",
+            Color::Grey => "grey",
+            Color::Taupe => "taupe",
+        }
+    }
+}
+
+struct ColorVisitor;
+
+impl<'de> de::Visitor<'de> for ColorVisitor {
+    type Value = Color;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("a color in [berry_red, red, orange, yellow, olive_green, lime_green, green, mint_green, teal, sky_blue, light_blue, blue, grape, violet, lavender, magenta, salmon, charcoal, grey, taupe]")
+    }
+
+    fn visit_str<E>(self, value: &str) -> Result<Color, E>
+    where
+        E: de::Error,
+    {
+        Color::from_str(value).map_err(|e| E::custom(e))
     }
 }
 
@@ -72,7 +107,7 @@ impl Default for Color {
     }
 }
 
-impl Serialize for Color {
+impl ser::Serialize for Color {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: ser::Serializer,
@@ -102,7 +137,7 @@ impl Serialize for Color {
     }
 }
 
-impl<'de> Deserialize<'de> for Color {
+impl<'de> de::Deserialize<'de> for Color {
     fn deserialize<D>(deserializer: D) -> Result<Color, D::Error>
     where
         D: de::Deserializer<'de>,

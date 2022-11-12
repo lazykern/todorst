@@ -8,6 +8,7 @@ mod priority;
 mod project;
 mod section;
 mod task;
+mod view_style;
 
 pub use attachment::*;
 pub use collaborator::*;
@@ -19,3 +20,4 @@ pub use priority::*;
 pub use project::*;
 pub use section::*;
 pub use task::*;
+pub use view_style::*;

@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     error::TodorstError,
-    rest::{request::query::GetTasksQuery, TodorstRestAPI},
+    rest::{body::CreateTaskBody, request::query::GetTasksQuery, TodorstRestAPI},
 };
 
 use super::{ProjectAPI, TaskAPI};
@@ -52,5 +52,12 @@ impl<'a> SectionAPI<'a> {
     pub async fn get_tasks(&self) -> Result<Vec<TaskAPI>, TodorstError> {
         let query = GetTasksQuery::new().with_section_id(&self.section.id);
         self.api.get_tasks_with_query(query).await
+    }
+
+    #[maybe_async::maybe_async]
+    pub async fn create_task(&self, body: CreateTaskBody) -> Result<TaskAPI, TodorstError> {
+        self.api
+            .create_task(body.with_section_id(&self.section.id))
+            .await
     }
 }

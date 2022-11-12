@@ -223,9 +223,19 @@ impl TodorstRestAPI<'_> {
     }
 
     #[maybe_async::maybe_async]
-    pub async fn create_comment(
+    pub async fn create_project_comment(
         &self,
-        body: CreateCommentBody,
+        body: CreateProjectCommentBody,
+    ) -> Result<CommentAPI, TodorstError> {
+        let url = rest_comments_url();
+        let response = self.client.post(url).json(&body).send().await?;
+        Ok(CommentAPI::new(&self, response.json().await?))
+    }
+
+    #[maybe_async::maybe_async]
+    pub async fn create_task_comment(
+        &self,
+        body: CreateTaskCommentBody,
     ) -> Result<CommentAPI, TodorstError> {
         let url = rest_comments_url();
         let response = self.client.post(url).json(&body).send().await?;
@@ -256,6 +266,13 @@ impl TodorstRestAPI<'_> {
     pub async fn delete_comment(&self, comment_id: &str) -> Result<(), TodorstError> {
         let url = rest_comment_url(comment_id);
         let response = self.client.delete(url).send().await?;
+        Ok(response.json().await?)
+    }
+
+    #[maybe_async::maybe_async]
+    pub async fn get_personal_labels(&self) -> Result<Vec<PersonalLabel>, TodorstError> {
+        let url = rest_labels_url();
+        let response = self.client.get(url).send().await?;
         Ok(response.json().await?)
     }
 }
