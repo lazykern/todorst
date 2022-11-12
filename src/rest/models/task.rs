@@ -82,6 +82,13 @@ impl<'a> TaskAPI<'a> {
     }
 
     #[maybe_async::maybe_async]
+    pub async fn create_child(&self, body: CreateTaskBody) -> Result<TaskAPI, TodorstError> {
+        self.api
+            .create_task(body.with_parent_id(&self.task.id))
+            .await
+    }
+
+    #[maybe_async::maybe_async]
     pub async fn get_parent(&self) -> Result<Option<TaskAPI>, TodorstError> {
         if let Some(parent_id) = &self.task.parent_id {
             Ok(Some(self.api.get_task(parent_id).await?))
@@ -114,19 +121,12 @@ impl<'a> TaskAPI<'a> {
     }
 
     #[maybe_async::maybe_async]
-    pub async fn add_comment(
+    pub async fn create_comment(
         &self,
         body: CreateTaskCommentBody,
     ) -> Result<CommentAPI, TodorstError> {
         self.api
             .create_task_comment(body.with_task_id(&self.task.id))
-            .await
-    }
-
-    #[maybe_async::maybe_async]
-    pub async fn create_child(&self, body: CreateTaskBody) -> Result<TaskAPI, TodorstError> {
-        self.api
-            .create_task(body.with_parent_id(&self.task.id))
             .await
     }
 }
