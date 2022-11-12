@@ -11,8 +11,9 @@ struct Args {
 #[tokio::main]
 async fn main() {
     let args = Args::parse();
+    let token = args.token.as_str();
 
-    let todorst = Todorst::new(args.token.as_str());
+    let todorst = Todorst::new(token);
     let todorst_rest = todorst.rest_api();
 
     let tasks = todorst_rest.get_tasks().await.unwrap();
