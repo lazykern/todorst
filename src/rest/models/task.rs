@@ -7,6 +7,7 @@ use crate::{
 };
 
 use super::{CommentAPI, Due, Priority, ProjectAPI, SectionAPI};
+use reqwest::Response;
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -57,6 +58,10 @@ impl<'a> TaskAPI<'a> {
         Self { api, task }
     }
 
+    pub fn from_iter(api: &'a TodorstRestAPI, tasks: impl Iterator<Item = Task>) -> Vec<Self> {
+        tasks.map(|t| Self::new(api, t)).collect()
+    }
+
     pub fn get(&self) -> &Task {
         &self.task
     }
@@ -67,17 +72,17 @@ impl<'a> TaskAPI<'a> {
     }
 
     #[maybe_async::maybe_async]
-    pub async fn close(&self) -> Result<(), TodorstError> {
+    pub async fn close(&self) -> Result<Response, TodorstError> {
         self.api.close_task(&self.task.id).await
     }
 
     #[maybe_async::maybe_async]
-    pub async fn reopen(&self) -> Result<(), TodorstError> {
+    pub async fn reopen(&self) -> Result<Response, TodorstError> {
         self.api.reopen_task(&self.task.id).await
     }
 
     #[maybe_async::maybe_async]
-    pub async fn delete(&self) -> Result<(), TodorstError> {
+    pub async fn delete(&self) -> Result<Response, TodorstError> {
         self.api.delete_task(&self.task.id).await
     }
 

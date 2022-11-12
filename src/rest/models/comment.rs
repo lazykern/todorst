@@ -1,3 +1,4 @@
+use reqwest::Response;
 use serde::{Deserialize, Serialize};
 
 use crate::{error::TodorstError, rest::TodorstRestAPI};
@@ -30,6 +31,16 @@ impl<'a> CommentAPI<'a> {
         Self { api, comment }
     }
 
+    pub fn from_iter(
+        api: &'a TodorstRestAPI<'a>,
+        comments: impl Iterator<Item = Comment>,
+    ) -> Vec<Self> {
+        comments
+            .into_iter()
+            .map(|comment| Self::new(api, comment))
+            .collect()
+    }
+
     pub fn get(&self) -> &Comment {
         &self.comment
     }
@@ -40,7 +51,7 @@ impl<'a> CommentAPI<'a> {
     }
 
     #[maybe_async::maybe_async]
-    pub async fn delete(&self) -> Result<(), TodorstError> {
+    pub async fn delete(&self) -> Result<Response, TodorstError> {
         self.api.delete_comment(&self.comment.id).await
     }
 

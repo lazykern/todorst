@@ -1,3 +1,4 @@
+use reqwest::Response;
 use serde::{Deserialize, Serialize};
 
 use crate::{
@@ -29,6 +30,16 @@ impl<'a> SectionAPI<'a> {
         SectionAPI { api, section }
     }
 
+    pub fn from_iter(
+        api: &'a TodorstRestAPI<'a>,
+        sections: impl Iterator<Item = Section>,
+    ) -> Vec<Self> {
+        sections
+            .into_iter()
+            .map(|section| Self::new(api, section))
+            .collect()
+    }
+
     pub fn get(&self) -> &Section {
         &self.section
     }
@@ -39,7 +50,7 @@ impl<'a> SectionAPI<'a> {
     }
 
     #[maybe_async::maybe_async]
-    pub async fn delete(&self) -> Result<(), TodorstError> {
+    pub async fn delete(&self) -> Result<Response, TodorstError> {
         self.api.delete_section(&self.section.id).await
     }
 

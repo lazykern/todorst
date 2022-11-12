@@ -11,6 +11,7 @@ use crate::{
 };
 
 use super::{Attachment, Collaborator, Color, CommentAPI, SectionAPI, TaskAPI, ViewStyle};
+use reqwest::Response;
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -51,6 +52,13 @@ impl<'a> ProjectAPI<'a> {
         ProjectAPI { api, project }
     }
 
+    pub fn from_iter(api: &'a TodorstRestAPI<'a>, projects: impl Iterator<Item = Project>) -> Vec<Self> {
+        projects
+            .into_iter()
+            .map(|project| Self::new(api, project))
+            .collect()
+    }
+
     pub fn get(&self) -> &Project {
         &self.project
     }
@@ -61,7 +69,7 @@ impl<'a> ProjectAPI<'a> {
     }
 
     #[maybe_async::maybe_async]
-    pub async fn delete(&self) -> Result<(), TodorstError> {
+    pub async fn delete(&self) -> Result<Response, TodorstError> {
         self.api.delete_project(&self.project.id).await
     }
 
