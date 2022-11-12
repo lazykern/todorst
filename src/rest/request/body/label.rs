@@ -1,38 +1,39 @@
 use serde::Serialize;
-use serde_json::{json, Value};
 
-use crate::rest::models::{Color, Label};
+use crate::rest::models::{Color, PersonalLabel};
 
+#[derive(Serialize, Debug)]
 pub struct CratePersonalLabelBody {
-    json: Value,
+    name: String,
+    order: Option<isize>,
+    color: Option<Color>,
+    is_favorite: Option<bool>,
 }
 
 impl CratePersonalLabelBody {
     pub fn new(name: &str) -> CratePersonalLabelBody {
-        let json = json!({
-            "name": name,
-        });
-        CratePersonalLabelBody { json }
+        CratePersonalLabelBody {
+            name: name.to_string(),
+            order: None,
+            color: None,
+            is_favorite: None,
+        }
     }
 
     pub fn set_name(&mut self, name: &str) {
-        self.json["name"] = json!(name);
+        self.name = name.to_string();
     }
 
     pub fn set_order(&mut self, order: isize) {
-        self.json["order"] = json!(order);
+        self.order = Some(order);
     }
 
     pub fn set_color(&mut self, color: Color) {
-        self.json["color"] = json!(color);
-    }
-
-    pub fn set_color_str(&mut self, color: &str) {
-        self.json["color"] = json!(color);
+        self.color = Some(color);
     }
 
     pub fn set_is_favorite(&mut self, is_favorite: bool) {
-        self.json["is_favorite"] = json!(is_favorite);
+        self.is_favorite = Some(is_favorite);
     }
 
     pub fn with_name(mut self, name: &str) -> CratePersonalLabelBody {
@@ -50,37 +51,84 @@ impl CratePersonalLabelBody {
         self
     }
 
-    pub fn with_color_str(mut self, color: &str) -> CratePersonalLabelBody {
-        self.set_color_str(color);
-        self
-    }
-
     pub fn with_is_favorite(mut self, is_favorite: bool) -> CratePersonalLabelBody {
         self.set_is_favorite(is_favorite);
         self
     }
 }
 
-impl From<&Label> for CratePersonalLabelBody {
-    fn from(label: &Label) -> Self {
-        let json = json!({
-            "name": label.name,
-            "color": label.color,
-            "order": label.order,
-            "is_favorite": label.is_favorite,
-        });
+impl From<&PersonalLabel> for CratePersonalLabelBody {
+    fn from(label: &PersonalLabel) -> Self {
+        CratePersonalLabelBody {
+            name: label.name.clone(),
+            order: Some(label.order),
+            color: Some(label.color.clone()),
+            is_favorite: Some(label.is_favorite),
+        }
+    }
+}
+#[derive(Serialize, Debug)]
+pub struct UpdatePersonalLabelBody {
+    name: Option<String>,
+    order: Option<isize>,
+    color: Option<Color>,
+    is_favorite: Option<bool>,
+}
 
-        CratePersonalLabelBody { json }
+impl UpdatePersonalLabelBody {
+    pub fn new() -> UpdatePersonalLabelBody {
+        UpdatePersonalLabelBody {
+            name: None,
+            order: None,
+            color: None,
+            is_favorite: None,
+        }
+    }
+
+    pub fn set_name(&mut self, name: &str) {
+        self.name = Some(name.to_string());
+    }
+
+    pub fn set_order(&mut self, order: isize) {
+        self.order = Some(order);
+    }
+
+    pub fn set_color(&mut self, color: Color) {
+        self.color = Some(color);
+    }
+
+    pub fn set_is_favorite(&mut self, is_favorite: bool) {
+        self.is_favorite = Some(is_favorite);
+    }
+
+    pub fn with_name(mut self, name: &str) -> UpdatePersonalLabelBody {
+        self.set_name(name);
+        self
+    }
+
+    pub fn with_order(mut self, order: isize) -> UpdatePersonalLabelBody {
+        self.set_order(order);
+        self
+    }
+
+    pub fn with_color(mut self, color: Color) -> UpdatePersonalLabelBody {
+        self.set_color(color);
+        self
+    }
+
+    pub fn with_is_favorite(mut self, is_favorite: bool) -> UpdatePersonalLabelBody {
+        self.set_is_favorite(is_favorite);
+        self
     }
 }
 
-impl Serialize for CratePersonalLabelBody {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        self.json.serialize(serializer)
+impl From<&PersonalLabel> for UpdatePersonalLabelBody {
+    fn from(label: &PersonalLabel) -> Self {
+        UpdatePersonalLabelBody {
+            name: Some(label.name.clone()),
+            order: Some(label.order),
+            color: Some(label.color.clone()),
+            is_favorite: Some(label.is_favorite),
+        }
     }
 }
-
-pub type UpdatePersonalLabelBody = CratePersonalLabelBody;

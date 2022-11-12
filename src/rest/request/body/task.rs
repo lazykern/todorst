@@ -1,262 +1,266 @@
-use serde::{Serialize, Serializer};
-use serde_json::{json, Value};
+use serde::Serialize;
 
-use crate::rest::models::Task;
+// use crate::rest::models::Task;
 
+#[derive(Serialize, Debug)]
 pub struct CreateTaskBody {
-    json: Value,
+    content: String,
+    description: Option<String>,
+    project_id: Option<String>,
+    section_id: Option<String>,
+    parent_id: Option<String>,
+    order: Option<isize>,
+    labels: Option<Vec<String>>,
+    priority: Option<isize>,
+    due_string: Option<String>,
+    due_date: Option<String>,
+    due_datetime: Option<String>,
+    due_lang: Option<String>,
+    assignee_id: Option<String>,
 }
 
 impl CreateTaskBody {
     pub fn new(content: &str) -> CreateTaskBody {
-        let json = json!({
-            "content": content,
-        });
-        CreateTaskBody { json }
+        CreateTaskBody {
+            content: content.to_string(),
+            description: None,
+            project_id: None,
+            section_id: None,
+            parent_id: None,
+            order: None,
+            labels: None,
+            priority: None,
+            due_string: None,
+            due_date: None,
+            due_datetime: None,
+            due_lang: None,
+            assignee_id: None,
+        }
     }
 
     pub fn set_content(&mut self, content: &str) {
-        self.json["content"] = json!(content);
+        self.content = content.to_string();
     }
 
     pub fn set_description(&mut self, description: &str) {
-        self.json["description"] = json!(description);
+        self.description = Some(description.to_string());
     }
 
     pub fn set_project_id(&mut self, project_id: &str) {
-        self.json["project_id"] = json!(project_id);
+        self.project_id = Some(project_id.to_string());
     }
 
     pub fn set_section_id(&mut self, section_id: &str) {
-        self.json["section_id"] = json!(section_id);
+        self.section_id = Some(section_id.to_string());
     }
 
     pub fn set_parent_id(&mut self, parent_id: &str) {
-        self.json["parent_id"] = json!(parent_id);
+        self.parent_id = Some(parent_id.to_string());
     }
 
     pub fn set_order(&mut self, order: isize) {
-        self.json["order"] = json!(order);
+        self.order = Some(order);
     }
 
     pub fn set_labels(&mut self, labels: Vec<&str>) {
-        self.json["labels"] = json!(labels);
+        self.labels = Some(labels.iter().map(|s| s.to_string()).collect());
     }
 
     pub fn set_priority(&mut self, priority: u8) {
-        self.json["priority"] = json!(priority);
+        self.priority = Some(priority as isize);
     }
 
     pub fn set_due_string(&mut self, due_string: &str) {
-        if self.json.get("due_date").is_some() {
-            self.json["due_date"].take();
+        self.due_string = Some(due_string.to_string());
+
+        if self.due_date.is_some() {
+            self.due_date = None;
         }
-        if self.json.get("due_datetime").is_some() {
-            self.json["due_datetime"].take();
+        if self.due_datetime.is_some() {
+            self.due_datetime = None;
         }
-        self.json["due_string"] = json!(due_string);
     }
 
     pub fn set_due_date(&mut self, due_date: &str) {
-        if self.json.get("due_string").is_some() {
-            self.json["due_string"].take();
+        self.due_date = Some(due_date.to_string());
+
+        if self.due_string.is_some() {
+            self.due_string = None;
         }
-        if self.json.get("due_datetime").is_some() {
-            self.json["due_datetime"].take();
+        if self.due_datetime.is_some() {
+            self.due_datetime = None;
         }
-        self.json["due_date"] = json!(due_date);
     }
 
     pub fn set_due_datetime(&mut self, due_datetime: &str) {
-        if self.json.get("due_string").is_some() {
-            self.json["due_string"].take();
+        self.due_datetime = Some(due_datetime.to_string());
+
+        if self.due_string.is_some() {
+            self.due_string = None;
         }
-        if self.json.get("due_date").is_some() {
-            self.json["due_date"].take();
+        if self.due_date.is_some() {
+            self.due_date = None;
         }
-        self.json["due_datetime"] = json!(due_datetime);
     }
 
     pub fn set_due_lang(&mut self, due_lang: &str) {
-        self.json["due_lang"] = json!(due_lang);
+        self.due_lang = Some(due_lang.to_string());
     }
 
     pub fn set_assignee_id(&mut self, assignee_id: &str) {
-        self.json["assignee_id"] = json!(assignee_id);
+        self.assignee_id = Some(assignee_id.to_string());
     }
 
     pub fn with_description(mut self, description: &str) -> CreateTaskBody {
-        self.json["description"] = json!(description);
+        self.set_description(description);
         self
     }
 
     pub fn with_project_id(mut self, project_id: &str) -> CreateTaskBody {
-        self.json["project_id"] = json!(project_id);
+        self.set_project_id(project_id);
         self
     }
 
     pub fn with_section_id(mut self, section_id: &str) -> CreateTaskBody {
-        self.json["section_id"] = json!(section_id);
+        self.set_section_id(section_id);
         self
     }
 
     pub fn with_parent_id(mut self, parent_id: &str) -> CreateTaskBody {
-        self.json["parent_id"] = json!(parent_id);
+        self.set_parent_id(parent_id);
         self
     }
 
     pub fn with_order(mut self, order: isize) -> CreateTaskBody {
-        self.json["order"] = json!(order);
+        self.set_order(order);
         self
     }
 
     pub fn with_labels(mut self, labels: Vec<&str>) -> CreateTaskBody {
-        self.json["labels"] = json!(labels);
+        self.set_labels(labels);
         self
     }
 
     pub fn with_priority(mut self, priority: u8) -> CreateTaskBody {
-        self.json["priority"] = json!(priority);
+        self.set_priority(priority);
         self
     }
 
     pub fn with_due_string(mut self, due_string: &str) -> CreateTaskBody {
-        if self.json.get("due_date").is_some() {
-            self.json["due_date"].take();
-        }
-        if self.json.get("due_datetime").is_some() {
-            self.json["due_datetime"].take();
-        }
-        self.json["due_string"] = json!(due_string);
+        self.set_due_string(due_string);
         self
     }
 
     pub fn with_due_date(mut self, due_date: &str) -> CreateTaskBody {
-        if self.json.get("due_string").is_some() {
-            self.json["due_string"].take();
-        }
-        if self.json.get("due_datetime").is_some() {
-            self.json["due_datetime"].take();
-        }
-        self.json["due_date"] = json!(due_date);
+        self.set_due_date(due_date);
         self
     }
 
     pub fn with_due_datetime(mut self, due_datetime: &str) -> CreateTaskBody {
-        if self.json.get("due_string").is_some() {
-            self.json["due_string"].take();
-        }
-        if self.json.get("due_date").is_some() {
-            self.json["due_date"].take();
-        }
-        self.json["due_datetime"] = json!(due_datetime);
+        self.set_due_datetime(due_datetime);
         self
     }
 
     pub fn with_due_lang(mut self, due_lang: &str) -> CreateTaskBody {
-        self.json["due_lang"] = json!(due_lang);
+        self.set_due_lang(due_lang);
         self
     }
 
     pub fn with_assignee_id(mut self, assignee_id: &str) -> CreateTaskBody {
-        self.json["assignee_id"] = json!(assignee_id);
+        self.set_assignee_id(assignee_id);
         self
     }
 }
 
-impl From<Task> for CreateTaskBody {
-    fn from(task: Task) -> CreateTaskBody {
-        let mut json = json!({
-            "content": task.content,
-            "description": task.description,
-            "project_id": task.project_id,
-            "section_id": task.section_id,
-            "parent_id": task.parent_id,
-            "order": task.order,
-            "labels": task.labels,
-            "priority": task.priority,
-            "assignee_id": task.assignee_id,
-        });
-        if let Some(due) = &task.due {
-            // TODO
-            json["due_string"] = json!(due.string);
-        }
+// impl From<Task> for CreateTaskBody {
+//     fn from(task: Task) -> CreateTaskBody {
+//         unimplemented!();
+//     }
+// }
 
-        CreateTaskBody { json }
-    }
-}
-
-impl Serialize for CreateTaskBody {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        self.json.serialize(serializer)
-    }
-}
-
+#[derive(Serialize, Debug)]
 pub struct UpdateTaskBody {
-    json: Value,
+    content: Option<String>,
+    description: Option<String>,
+    labels: Option<Vec<String>>,
+    priority: Option<isize>,
+    due_string: Option<String>,
+    due_date: Option<String>,
+    due_datetime: Option<String>,
+    due_lang: Option<String>,
+    assignee_id: Option<String>,
 }
 
 impl UpdateTaskBody {
     pub fn new() -> UpdateTaskBody {
-        let json = json!({});
-        UpdateTaskBody { json }
+        UpdateTaskBody {
+            content: None,
+            description: None,
+            labels: None,
+            priority: None,
+            due_string: None,
+            due_date: None,
+            due_datetime: None,
+            due_lang: None,
+            assignee_id: None,
+        }
     }
 
     pub fn set_content(&mut self, content: &str) {
-        self.json["content"] = json!(content);
+        self.content = Some(content.to_string());
     }
 
     pub fn set_description(&mut self, description: &str) {
-        self.json["description"] = json!(description);
+        self.description = Some(description.to_string());
     }
 
     pub fn set_labels(&mut self, labels: Vec<&str>) {
-        self.json["labels"] = json!(labels);
+        self.labels = Some(labels.iter().map(|s| s.to_string()).collect());
     }
 
     pub fn set_priority(&mut self, priority: u8) {
-        self.json["priority"] = json!(priority);
+        self.priority = Some(priority as isize);
     }
 
     pub fn set_due_string(&mut self, due_string: &str) {
-        if self.json.get("due_date").is_some() {
-            self.json["due_date"].take();
+        self.due_string = Some(due_string.to_string());
+
+        if self.due_date.is_some() {
+            self.due_date = None;
         }
-        if self.json.get("due_datetime").is_some() {
-            self.json["due_datetime"].take();
+        if self.due_datetime.is_some() {
+            self.due_datetime = None;
         }
-        self.json["due_string"] = json!(due_string);
     }
 
     pub fn set_due_date(&mut self, due_date: &str) {
-        if self.json.get("due_string").is_some() {
-            self.json["due_string"].take();
+        self.due_date = Some(due_date.to_string());
+
+        if self.due_string.is_some() {
+            self.due_string = None;
         }
-        if self.json.get("due_datetime").is_some() {
-            self.json["due_datetime"].take();
+        if self.due_datetime.is_some() {
+            self.due_datetime = None;
         }
-        self.json["due_date"] = json!(due_date);
     }
 
     pub fn set_due_datetime(&mut self, due_datetime: &str) {
-        if self.json.get("due_string").is_some() {
-            self.json["due_string"].take();
+        self.due_datetime = Some(due_datetime.to_string());
+
+        if self.due_string.is_some() {
+            self.due_string = None;
         }
-        if self.json.get("due_date").is_some() {
-            self.json["due_date"].take();
+        if self.due_date.is_some() {
+            self.due_date = None;
         }
-        self.json["due_datetime"] = json!(due_datetime);
     }
 
     pub fn set_due_lang(&mut self, due_lang: &str) {
-        self.json["due_lang"] = json!(due_lang);
+        self.due_lang = Some(due_lang.to_string());
     }
 
     pub fn set_assignee_id(&mut self, assignee_id: &str) {
-        self.json["assignee_id"] = json!(assignee_id);
+        self.assignee_id = Some(assignee_id.to_string());
     }
 
     pub fn with_content(mut self, content: &str) -> UpdateTaskBody {
@@ -295,33 +299,8 @@ impl UpdateTaskBody {
     }
 }
 
-impl From<Task> for UpdateTaskBody {
-    fn from(task: Task) -> UpdateTaskBody {
-        let mut json = json!({
-            "description": task.description,
-            "project_id": task.project_id,
-            "section_id": task.section_id,
-            "parent_id": task.parent_id,
-            "order": task.order,
-            "labels": task.labels,
-            "priority": task.priority,
-            "assignee_id": task.assignee_id,
-        });
-
-        if let Some(due) = &task.due {
-            // TODO
-            json["due_string"] = json!(due.string);
-        }
-
-        UpdateTaskBody { json }
-    }
-}
-
-impl Serialize for UpdateTaskBody {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        self.json.serialize(serializer)
-    }
-}
+// impl From<Task> for UpdateTaskBody {
+//     fn from(task: Task) -> UpdateTaskBody {
+//         unimplemented!();
+//     }
+// }

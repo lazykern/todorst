@@ -1,42 +1,48 @@
-use serde::{Serialize, Serializer};
-use serde_json::{json, Value};
+use serde::Serialize;
 
-use crate::rest::models::{Color, Project};
+use crate::rest::{
+    models::{Color, Project},
+    ViewStyle,
+};
 
+#[derive(Serialize, Debug)]
 pub struct CreateProjectBody {
-    json: Value,
+    name: String,
+    parent_id: Option<String>,
+    color: Option<Color>,
+    is_favorite: Option<bool>,
+    view_style: ViewStyle,
 }
 
 impl CreateProjectBody {
     pub fn new(name: &str) -> CreateProjectBody {
-        let json = json!({
-            "name": name,
-        });
-        CreateProjectBody { json }
+        CreateProjectBody {
+            name: name.to_string(),
+            parent_id: None,
+            color: None,
+            is_favorite: None,
+            view_style: ViewStyle::default(),
+        }
     }
 
     pub fn set_name(&mut self, name: &str) {
-        self.json["name"] = json!(name);
+        self.name = name.to_string();
     }
 
     pub fn set_parent_id(&mut self, parent_id: &str) {
-        self.json["parent_id"] = json!(parent_id);
+        self.parent_id = Some(parent_id.to_string());
     }
 
     pub fn set_color(&mut self, color: Color) {
-        self.json["color"] = json!(color);
-    }
-
-    pub fn set_color_str(&mut self, color: &str) {
-        self.json["color"] = json!(color);
+        self.color = Some(color);
     }
 
     pub fn set_is_favorite(&mut self, is_favorite: bool) {
-        self.json["is_favorite"] = json!(is_favorite);
+        self.is_favorite = Some(is_favorite);
     }
 
-    pub fn set_view_style(&mut self, view_style: &str) {
-        self.json["view_style"] = json!(view_style);
+    pub fn set_view_style(&mut self, view_style: ViewStyle) {
+        self.view_style = view_style;
     }
 
     pub fn with_parent_id(mut self, parent_id: &str) -> CreateProjectBody {
@@ -49,17 +55,12 @@ impl CreateProjectBody {
         self
     }
 
-    pub fn with_color_str(mut self, color: &str) -> CreateProjectBody {
-        self.set_color_str(color);
-        self
-    }
-
     pub fn with_is_favorite(mut self, is_favorite: bool) -> CreateProjectBody {
         self.set_is_favorite(is_favorite);
         self
     }
 
-    pub fn with_view_style(mut self, view_style: &str) -> CreateProjectBody {
+    pub fn with_view_style(mut self, view_style: ViewStyle) -> CreateProjectBody {
         self.set_view_style(view_style);
         self
     }
@@ -67,99 +68,78 @@ impl CreateProjectBody {
 
 impl From<&Project> for CreateProjectBody {
     fn from(project: &Project) -> CreateProjectBody {
-        let json = json!({
-            "name": project.name,
-            "parent_id": project.parent_id,
-            "color": project.color,
-            "is_favorite": project.is_favorite,
-            "view_style": project.view_style,
-        });
-        CreateProjectBody { json }
+        CreateProjectBody {
+            name: project.name.clone(),
+            parent_id: project.parent_id.clone(),
+            color: Some(project.color.clone()),
+            is_favorite: Some(project.is_favorite.clone()),
+            view_style: project.view_style.clone(),
+        }
     }
 }
 
-impl Serialize for CreateProjectBody {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        self.json.serialize(serializer)
-    }
-}
-
+#[derive(Serialize, Debug)]
 pub struct UpdateProjectBody {
-    json: Value,
+    name: Option<String>,
+    color: Option<Color>,
+    is_favorite: Option<bool>,
+    view_style: Option<ViewStyle>,
 }
 
 impl UpdateProjectBody {
     pub fn new() -> UpdateProjectBody {
-        let json = json!({});
-        UpdateProjectBody { json }
+        UpdateProjectBody {
+            name: None,
+            color: None,
+            is_favorite: None,
+            view_style: None,
+        }
     }
 
     pub fn set_name(&mut self, name: &str) {
-        self.json["name"] = json!(name);
+        self.name = Some(name.to_string());
     }
 
     pub fn set_color(&mut self, color: Color) {
-        self.json["color"] = json!(color);
-    }
-
-    pub fn set_color_str(&mut self, color: &str) {
-        self.json["color"] = json!(color);
+        self.color = Some(color);
     }
 
     pub fn set_is_favorite(&mut self, is_favorite: bool) {
-        self.json["is_favorite"] = json!(is_favorite);
+        self.is_favorite = Some(is_favorite);
     }
 
-    pub fn set_view_style(&mut self, view_style: &str) {
-        self.json["view_style"] = json!(view_style);
+    pub fn set_view_style(&mut self, view_style: ViewStyle) {
+        self.view_style = Some(ViewStyle::from(view_style));
     }
 
     pub fn with_name(mut self, name: &str) -> UpdateProjectBody {
-        self.json["name"] = json!(name);
+        self.set_name(name);
         self
     }
 
     pub fn with_color(mut self, color: Color) -> UpdateProjectBody {
-        self.json["color"] = json!(color);
-        self
-    }
-
-    pub fn with_color_str(mut self, color: &str) -> UpdateProjectBody {
-        self.json["color"] = json!(color);
+        self.set_color(color);
         self
     }
 
     pub fn with_is_favorite(mut self, is_favorite: bool) -> UpdateProjectBody {
-        self.json["is_favorite"] = json!(is_favorite);
+        self.set_is_favorite(is_favorite);
         self
     }
 
-    pub fn with_view_style(mut self, view_style: &str) -> UpdateProjectBody {
-        self.json["view_style"] = json!(view_style);
+    pub fn with_view_style(mut self, view_style: ViewStyle) -> UpdateProjectBody {
+        self.set_view_style(view_style);
         self
     }
 }
 
 impl From<&Project> for UpdateProjectBody {
     fn from(project: &Project) -> UpdateProjectBody {
-        let json = json!({
-            "name": project.name,
-            "color": project.color,
-            "is_favorite": project.is_favorite,
-            "view_style": project.view_style,
-        });
-        UpdateProjectBody { json }
-    }
-}
-
-impl Serialize for UpdateProjectBody {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        self.json.serialize(serializer)
+        UpdateProjectBody {
+            name: Some(project.name.clone()),
+            color: Some(project.color.clone()),
+            is_favorite: Some(project.is_favorite.clone()),
+            view_style: Some(project.view_style.clone()),
+        }
     }
 }
