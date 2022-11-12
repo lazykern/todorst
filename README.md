@@ -1,6 +1,6 @@
-# todorst
+# todorst | UNSTABLE
 
-An maybe asynchronous rust wrapper for Todoist REST and Sync API.
+A maybe asynchronous rust wrapper for Todoist REST and Sync API.
 
 ## Usage
 
@@ -22,6 +22,6 @@ async fn main() {
     // Create a project with red color
     let body = CreateProjectBody::new("Test project").with_color(Color::Red);
 
-    let created_project = todorst_rest.crate_project(body).await.unwrap();
+    let created_project = todorst_rest.create_project(body).await.unwrap();
 }
 ```
