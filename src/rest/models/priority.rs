@@ -13,11 +13,12 @@ pub enum Priority {
 impl From<u8> for Priority {
     fn from(value: u8) -> Self {
         match value {
+            0 => Priority::default(),
             1 => Self::One,
             2 => Self::Two,
             3 => Self::Three,
             4 => Self::Four,
-            _ => panic!("Unknown priority value: {}", value),
+            _ => Self::Four,
         }
     }
 }
