@@ -8,10 +8,14 @@ use crate::rest::{
 #[derive(Serialize, Debug)]
 pub struct CreateProjectBody {
     name: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     parent_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     color: Option<Color>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     is_favorite: Option<bool>,
-    view_style: ViewStyle,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    view_style: Option<ViewStyle>,
 }
 
 impl CreateProjectBody {
@@ -21,7 +25,7 @@ impl CreateProjectBody {
             parent_id: None,
             color: None,
             is_favorite: None,
-            view_style: ViewStyle::default(),
+            view_style: None,
         }
     }
 
@@ -42,7 +46,7 @@ impl CreateProjectBody {
     }
 
     pub fn set_view_style(&mut self, view_style: ViewStyle) {
-        self.view_style = view_style;
+        self.view_style = Some(view_style);
     }
 
     pub fn with_parent_id(mut self, parent_id: &str) -> CreateProjectBody {
@@ -73,16 +77,20 @@ impl From<&Project> for CreateProjectBody {
             parent_id: project.parent_id.clone(),
             color: Some(project.color.clone()),
             is_favorite: Some(project.is_favorite.clone()),
-            view_style: project.view_style.clone(),
+            view_style: Some(project.view_style.clone()),
         }
     }
 }
 
 #[derive(Serialize, Debug)]
 pub struct UpdateProjectBody {
+    #[serde(skip_serializing_if = "Option::is_none")]
     name: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     color: Option<Color>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     is_favorite: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     view_style: Option<ViewStyle>,
 }
 

@@ -6,6 +6,7 @@ use crate::rest::models::Section;
 pub struct CreateSectionBody {
     name: String,
     project_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     order: Option<isize>,
 }
 

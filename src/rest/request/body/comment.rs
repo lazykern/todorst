@@ -6,6 +6,7 @@ use crate::rest::models::{Attachment, Comment};
 pub struct CreateProjectCommentBody {
     content: String,
     project_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     attachment: Option<Attachment>,
 }
 
@@ -66,6 +67,7 @@ impl From<&Comment> for CreateProjectCommentBody {
 pub struct CreateTaskCommentBody {
     content: String,
     task_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     attachment: Option<Attachment>,
 }
 

@@ -5,8 +5,11 @@ use crate::rest::models::{Color, PersonalLabel};
 #[derive(Serialize, Debug)]
 pub struct CratePersonalLabelBody {
     name: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     order: Option<isize>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     color: Option<Color>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     is_favorite: Option<bool>,
 }
 
@@ -69,9 +72,13 @@ impl From<&PersonalLabel> for CratePersonalLabelBody {
 }
 #[derive(Serialize, Debug)]
 pub struct UpdatePersonalLabelBody {
+    #[serde(skip_serializing_if = "Option::is_none")]
     name: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     order: Option<isize>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     color: Option<Color>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     is_favorite: Option<bool>,
 }
 

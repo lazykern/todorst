@@ -5,17 +5,29 @@ use serde::Serialize;
 #[derive(Serialize, Debug)]
 pub struct CreateTaskBody {
     content: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     description: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     project_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     section_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     parent_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     order: Option<isize>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     labels: Option<Vec<String>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     priority: Option<isize>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     due_string: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     due_date: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     due_datetime: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     due_lang: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     assignee_id: Option<String>,
 }
 
@@ -180,14 +192,23 @@ impl CreateTaskBody {
 
 #[derive(Serialize, Debug)]
 pub struct UpdateTaskBody {
+    #[serde(skip_serializing_if = "Option::is_none")]
     content: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     description: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     labels: Option<Vec<String>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     priority: Option<isize>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     due_string: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     due_date: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     due_datetime: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     due_lang: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     assignee_id: Option<String>,
 }
 
