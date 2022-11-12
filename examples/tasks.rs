@@ -1,6 +1,15 @@
-use todorst::Todorst;
+use todorst::{rest::body::CreateTaskBody, Todorst};
 
 use clap::Parser;
+use std::io::{stdin, stdout, Read, Write};
+
+fn pause(message: &str) {
+    let mut stdout = stdout();
+    stdout.write(message.as_bytes()).unwrap();
+    stdout.write(b"\npress Enter to continue...").unwrap();
+    stdout.flush().unwrap();
+    stdin().read(&mut [0]).unwrap();
+}
 
 #[derive(Parser, Debug)]
 struct Args {
@@ -16,6 +25,22 @@ async fn main() {
     let todorst = Todorst::new(token);
     let todorst_rest = todorst.rest_api();
 
-    let tasks = todorst_rest.get_tasks().await.unwrap();
-    println!("{:?}", tasks);
+    pause("Next step: get all tasks");
+
+    println!("{:#?}\n", todorst_rest.get_tasks().await.unwrap());
+
+    pause("Next step: create a today task");
+
+    let example_task = todorst_rest
+        .create_task(
+            CreateTaskBody::new("example task")
+                .with_description("this is an example task")
+                .with_due_string("today"),
+        )
+        .await
+        .unwrap();
+    println!("{:#?}\n", example_task);
+
+    pause("Next step: delete the task");
+    println!("{:#?}\n", example_task.delete().await.unwrap());
 }
