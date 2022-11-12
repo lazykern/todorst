@@ -12,7 +12,7 @@ use todorst::Todorst;
 
 #[tokio::main]
 async fn main() {
-    // Create an client
+    // Create a client
     let todorst = Todorst::new("API TOKEN");
     let todorst_rest = todorst.rest_api();
 
