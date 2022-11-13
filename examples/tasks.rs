@@ -5,6 +5,7 @@ use std::io::{stdin, stdout, Read, Write};
 
 fn pause(message: &str) {
     let mut stdout = stdout();
+    stdout.write(b"\n").unwrap();
     stdout.write(message.as_bytes()).unwrap();
     stdout.write(b"\npress Enter to continue...").unwrap();
     stdout.flush().unwrap();
@@ -27,9 +28,9 @@ async fn main() {
 
     pause("Next step: get all tasks");
 
-    println!("{:#?}\n", todorst_rest.get_tasks().await.unwrap());
+    println!("{:#?}", todorst_rest.get_tasks().await.unwrap());
 
-    pause("Next step: create a today task");
+    pause("Next step: create today task");
 
     let example_task = todorst_rest
         .create_task(
@@ -39,8 +40,8 @@ async fn main() {
         )
         .await
         .unwrap();
-    println!("{:#?}\n", example_task);
+    println!("{:#?}", example_task);
 
     pause("Next step: delete the task");
-    println!("{:#?}\n", example_task.delete().await.unwrap());
+    println!("{:#?}", example_task.delete().await.unwrap());
 }
