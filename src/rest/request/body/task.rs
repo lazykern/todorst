@@ -1,5 +1,7 @@
 use serde::Serialize;
 
+use crate::rest::Priority;
+
 // use crate::rest::models::Task;
 
 #[derive(Serialize, Debug)]
@@ -18,7 +20,7 @@ pub struct CreateTaskBody {
     #[serde(skip_serializing_if = "Option::is_none")]
     labels: Option<Vec<String>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    priority: Option<isize>,
+    priority: Option<Priority>,
     #[serde(skip_serializing_if = "Option::is_none")]
     due_string: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -78,8 +80,8 @@ impl CreateTaskBody {
         self.labels = Some(labels.iter().map(|s| s.to_string()).collect());
     }
 
-    pub fn set_priority(&mut self, priority: u8) {
-        self.priority = Some(priority as isize);
+    pub fn set_priority(&mut self, priority: Priority) {
+        self.priority = Some(Priority::from(priority));
     }
 
     pub fn set_due_string(&mut self, due_string: &str) {
@@ -153,7 +155,7 @@ impl CreateTaskBody {
         self
     }
 
-    pub fn with_priority(mut self, priority: u8) -> CreateTaskBody {
+    pub fn with_priority(mut self, priority: Priority) -> CreateTaskBody {
         self.set_priority(priority);
         self
     }
@@ -199,7 +201,7 @@ pub struct UpdateTaskBody {
     #[serde(skip_serializing_if = "Option::is_none")]
     labels: Option<Vec<String>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    priority: Option<isize>,
+    priority: Option<Priority>,
     #[serde(skip_serializing_if = "Option::is_none")]
     due_string: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -239,8 +241,8 @@ impl UpdateTaskBody {
         self.labels = Some(labels.iter().map(|s| s.to_string()).collect());
     }
 
-    pub fn set_priority(&mut self, priority: u8) {
-        self.priority = Some(priority as isize);
+    pub fn set_priority(&mut self, priority: Priority) {
+        self.priority = Some(priority);
     }
 
     pub fn set_due_string(&mut self, due_string: &str) {
@@ -299,7 +301,7 @@ impl UpdateTaskBody {
         self
     }
 
-    pub fn with_priority(mut self, priority: u8) -> UpdateTaskBody {
+    pub fn with_priority(mut self, priority: Priority) -> UpdateTaskBody {
         self.set_priority(priority);
         self
     }
