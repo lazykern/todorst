@@ -1,8 +1,6 @@
 use todorst::{
-    rest::{
-        body::{CreateProjectBody, UpdateProjectBody},
-        Color,
-    },
+    rest::body::{CreateProjectBody, UpdateProjectBody},
+    types::Color,
     Todorst,
 };
 
