@@ -7,7 +7,7 @@ A maybe asynchronous rust wrapper for Todoist REST and Sync API.
 ### REST
 
 ```rust
-use todorst::rest::{body::CreateProjectBody, models::Color};
+use todorst::rest::{body::CreateProjectBody, model::Color};
 use todorst::Todorst;
 
 #[tokio::main]

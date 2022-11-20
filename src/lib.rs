@@ -3,6 +3,7 @@ pub mod constant;
 pub mod error;
 pub mod rest;
 pub mod sync;
+pub mod types;
 
 use client::header::{HeaderMap, HeaderValue};
 

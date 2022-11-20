@@ -2,7 +2,7 @@ use reqwest::Response;
 use serde_json::json;
 
 use super::body::*;
-use super::models::*;
+use super::model::*;
 use super::request::endpoint::*;
 use super::request::query::GetTasksQuery;
 use crate::client;

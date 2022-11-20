@@ -1,6 +1,6 @@
 use serde::Serialize;
 
-use crate::rest::models::{Attachment, Comment};
+use crate::rest::model::{Attachment, Comment};
 
 #[derive(Serialize, Debug)]
 pub struct CreateProjectCommentBody {

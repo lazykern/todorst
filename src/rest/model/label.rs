@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use super::Color;
+use crate::types::Color;
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PersonalLabel {

@@ -1,8 +1,8 @@
 mod api;
 pub use api::TodorstRestAPI;
 
-pub mod models;
-pub use models::*;
+pub mod model;
+pub use model::*;
 
 mod request;
 pub use request::body;

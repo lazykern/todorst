@@ -1,6 +1,6 @@
 use serde::Serialize;
 
-use crate::rest::models::Section;
+use crate::rest::model::Section;
 
 #[derive(Serialize, Debug)]
 pub struct CreateSectionBody {

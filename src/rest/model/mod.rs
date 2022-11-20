@@ -1,6 +1,5 @@
 mod attachment;
 mod collaborator;
-mod color;
 mod comment;
 mod due;
 mod label;
@@ -12,7 +11,6 @@ mod view_style;
 
 pub use attachment::*;
 pub use collaborator::*;
-pub use color::*;
 pub use comment::*;
 pub use due::*;
 pub use label::*;

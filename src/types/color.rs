@@ -1,4 +1,3 @@
-/// This code was generally written by ishehadeh
 use serde::{de, ser};
 
 use std::{fmt, str::FromStr};

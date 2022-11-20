@@ -2,8 +2,6 @@ use serde::Serialize;
 
 use crate::rest::Priority;
 
-// use crate::rest::models::Task;
-
 #[derive(Serialize, Debug)]
 pub struct CreateTaskBody {
     content: String,

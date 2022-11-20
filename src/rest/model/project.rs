@@ -8,9 +8,10 @@ use crate::{
         request::query::GetTasksQuery,
         TodorstRestAPI,
     },
+    types::Color
 };
 
-use super::{Attachment, Collaborator, Color, CommentAPI, SectionAPI, TaskAPI, ViewStyle};
+use super::{Attachment, Collaborator, CommentAPI, SectionAPI, TaskAPI, ViewStyle};
 use reqwest::Response;
 use serde::{Deserialize, Serialize};
 
@@ -52,7 +53,10 @@ impl<'a> ProjectAPI<'a> {
         ProjectAPI { api, project }
     }
 
-    pub fn from_iter(api: &'a TodorstRestAPI<'a>, projects: impl Iterator<Item = Project>) -> Vec<Self> {
+    pub fn from_iter(
+        api: &'a TodorstRestAPI<'a>,
+        projects: impl Iterator<Item = Project>,
+    ) -> Vec<Self> {
         projects
             .into_iter()
             .map(|project| Self::new(api, project))
