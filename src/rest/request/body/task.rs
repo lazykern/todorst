@@ -1,6 +1,6 @@
 use serde::Serialize;
 
-use crate::rest::Priority;
+use crate::types::Priority;
 
 #[derive(Serialize, Debug)]
 pub struct CreateTaskBody {

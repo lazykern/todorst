@@ -3,10 +3,10 @@ use crate::{
     rest::{
         body::{CreateTaskBody, CreateTaskCommentBody, UpdateTaskBody},
         TodorstRestAPI,
-    },
+    }, types::Priority,
 };
 
-use super::{CommentAPI, Due, Priority, ProjectAPI, SectionAPI};
+use super::{CommentAPI, Due, ProjectAPI, SectionAPI};
 use reqwest::Response;
 use serde::{Deserialize, Serialize};
 

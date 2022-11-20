@@ -2,7 +2,6 @@ use serde::Serialize;
 
 use crate::{rest::model::PersonalLabel, types::Color};
 
-
 #[derive(Serialize, Debug)]
 pub struct CratePersonalLabelBody {
     name: String,

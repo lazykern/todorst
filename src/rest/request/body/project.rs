@@ -1,8 +1,8 @@
 use serde::Serialize;
 
 use crate::{
-    rest::{model::Project, ViewStyle},
-    types::Color,
+    rest::model::Project,
+    types::{Color, ViewStyle},
 };
 
 #[derive(Serialize, Debug)]

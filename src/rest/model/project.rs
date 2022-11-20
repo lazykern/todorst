@@ -8,10 +8,10 @@ use crate::{
         request::query::GetTasksQuery,
         TodorstRestAPI,
     },
-    types::Color
+    types::{Color, ViewStyle},
 };
 
-use super::{Attachment, Collaborator, CommentAPI, SectionAPI, TaskAPI, ViewStyle};
+use super::{Attachment, Collaborator, CommentAPI, SectionAPI, TaskAPI};
 use reqwest::Response;
 use serde::{Deserialize, Serialize};
 
