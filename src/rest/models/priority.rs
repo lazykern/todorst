@@ -1,6 +1,6 @@
 use serde::{de, ser, Deserialize, Serialize};
 
-#[derive(Default, Debug, Clone, PartialEq)]
+#[derive(Default, Debug, Clone, PartialEq, Copy)]
 #[repr(u8)]
 pub enum Priority {
     #[default]
@@ -34,7 +34,7 @@ impl Serialize for Priority {
     where
         S: ser::Serializer,
     {
-        serializer.serialize_u8(*self as u8)
+        serializer.serialize_u8(u8::from(*self))
     }
 }
 
