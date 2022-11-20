@@ -26,10 +26,8 @@ pub struct Project {
 
     pub sync_id: Option<String>,
 
-    #[serde(default)]
     pub inbox_project: Option<bool>,
 
-    #[serde(default)]
     pub team_inbox: Option<bool>,
 
     view_style: ViewStyle,
