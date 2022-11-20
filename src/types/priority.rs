@@ -4,21 +4,21 @@ use serde::{de, ser, Deserialize, Serialize};
 #[repr(u8)]
 pub enum Priority {
     #[default]
-    One = 1,
-    Two = 2,
-    Three = 3,
-    Four = 4,
+    Natural = 1,
+    Medium = 2,
+    Urgent = 3,
+    VeryUrgent = 4,
 }
 
 impl From<u8> for Priority {
     fn from(value: u8) -> Self {
         match value {
             0 => Priority::default(),
-            1 => Self::One,
-            2 => Self::Two,
-            3 => Self::Three,
-            4 => Self::Four,
-            _ => Self::Four,
+            1 => Priority::Natural,
+            2 => Priority::Medium,
+            3 => Priority::Urgent,
+            4 => Priority::VeryUrgent,
+            _ => Priority::VeryUrgent,
         }
     }
 }
