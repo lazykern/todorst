@@ -5,3 +5,5 @@
 /target
 
 /examples/temp.rs
+
+*.rustfmt
